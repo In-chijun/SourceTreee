@@ -79,18 +79,18 @@ Instead, the nextTickQueue will be processed after the current operation is comp
 regardless of the current phase of the event loop.
 */
 
-// setTimeout(() => console.log('timeout1'), 0);
-// setImmediate(() => console.log('immediate1'));
+setTimeout(() => console.log('timeout1'), 0);
+setImmediate(() => console.log('immediate1'));
 
-// process.nextTick(() => {
-//     setTimeout(() => console.log('timeout2'), 0);
-//     setImmediate(() => {
-//         process.nextTick(() => console.log('tick2'));
-//         console.log('immediate2');
-//     });
+process.nextTick(() => {
+    setTimeout(() => console.log('timeout2'), 0);
+    setImmediate(() => {
+        process.nextTick(() => console.log('tick2'));
+        console.log('immediate2');
+    });
 
-//     console.log('tick1');
-// });
+    console.log('tick1');
+});
 
 /* 
 출력 순서
@@ -116,16 +116,16 @@ nextTick queue의 작업이 항상 먼저 실행됨
 이벤트 비동기 실행 순서: nextTick -> promise -> timeout
 */
 
-const promise = new Promise(resolve => {
-    console.log("promise");
-    resolve();
+// const promise = new Promise(resolve => {
+//     console.log("promise");
+//     resolve();
 
-    setTimeout(() => console.log("timeout in promise"));
-    process.nextTick(() => console.log("nextTick in promise"));
-}).then(() => console.log("then"));
+//     setTimeout(() => console.log("timeout in promise"));
+//     process.nextTick(() => console.log("nextTick in promise"));
+// }).then(() => console.log("then"));
 
-process.nextTick(() => console.log("nextTick in global"));
-console.log("global");
+// process.nextTick(() => console.log("nextTick in global"));
+// console.log("global");
 
 
 /*

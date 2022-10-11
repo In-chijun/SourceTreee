@@ -175,23 +175,23 @@
 
 
 
-var obj = {
-    state: {
-        name: 'KBU'
-    },
-    method() {
-        return 10000;
-    },
-};
+// var obj = {
+//     state: {
+//         name: 'KBU'
+//     },
+//     method() {
+//         return 10000;
+//     },
+// };
 
-// 1
-var name = obj.state.name;
-var method = obj.method;
-console.log(name, method());
+// // 1
+// var name = obj.state.name;
+// var method = obj.method;
+// console.log(name, method());
 
-// 2
-var { state: { name }, method } = obj;
-console.log(name, method());
+// // 2
+// var { state: { name }, method } = obj;
+// console.log(name, method());
 
 
 
@@ -273,9 +273,9 @@ console.log(name, method());
 
 
 
-// // // 프로미스
+// // 프로미스
 
-// const condition = true; // true면 resolve, false면 reject
+// const condition = false; // true면 resolve, false면 reject
 
 // const promise = new Promise((resolve, reject) => {
 //     condition ? resolve('success') : reject('fail');
@@ -304,20 +304,24 @@ console.log(name, method());
 
 // new Promise((resolve, reject) => {
 //     resolve('a');
-// }).then(msg => {
+// })
+// .then(msg => {
 //     return new Promise((resolve, reject) => {
 //         resolve(msg + 'b');
-//         // reject('fail');
+//         reject('fail');
 //     });
-// }).then((msg) => {
+// })
+// .then((msg) => {
 //     return new Promise((resolve, reject) => {
 //         resolve(msg + 'c');
 //     });
-// }).then((msg) => {
+// })
+// .then((msg) => {
 //     return new Promise((resolve, reject) => {
 //         console.log(msg);
 //     });
-// }).catch(err => console.error(err));
+// })
+// .catch(err => console.error(err));
 
 // for (let i = 0; i < 1000; i++)
 //     console.log(`loop: ${i}`);
@@ -337,7 +341,7 @@ console.log(name, method());
 // var promise2 = Promise.resolve('success2');
 
 // const f = async () => {
-//     for await (msg of [promise1, promise2]) {
+//     for await (msg of [promise2, promise1]) {
 //         console.log(msg);
 //     }
 // };
