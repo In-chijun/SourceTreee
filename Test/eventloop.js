@@ -79,18 +79,18 @@ Instead, the nextTickQueue will be processed after the current operation is comp
 regardless of the current phase of the event loop.
 */
 
-setTimeout(() => console.log('timeout1'), 0);
-setImmediate(() => console.log('immediate1'));
+// setTimeout(() => console.log('timeout1'), 0);
+// setImmediate(() => console.log('immediate1'));
 
-process.nextTick(() => {
-    setTimeout(() => console.log('timeout2'), 0);
-    setImmediate(() => {
-        process.nextTick(() => console.log('tick2'));
-        console.log('immediate2');
-    });
+// process.nextTick(() => {
+//     setTimeout(() => console.log('timeout2'), 0);
+//     setImmediate(() => {
+//         process.nextTick(() => console.log('tick2'));
+//         console.log('immediate2');
+//     });
 
-    console.log('tick1');
-});
+//     console.log('tick1');
+// });
 
 /* 
 출력 순서
@@ -173,25 +173,50 @@ func 호출 사이의 지연 간격이 실제 명시한 간격(100ms)보다 짧�
 
 // 출력 값은?
 
-let v = 0;
+// let v = 0;
 
-const k1 = setInterval(() => v -= 1, 0);
-const k2 = setInterval(() => v += 1, 300);
+// const k1 = setInterval(() => v -= 1, 0);
+// const k2 = setInterval(() => v += 1, 300);
+
+// const promise = new Promise(resolve => {
+//     resolve();
+//     process.nextTick(() => v *= 3);
+//     v += 2;
+// })
+// .then(() => {
+//     clearInterval(k1); //k1 삭제
+//     v += 4;
+//     return new Promise(resolve => setTimeout(() => resolve(), 700));
+// })
+// .then(() => {
+//     clearInterval(k2)
+//     v += 6;
+// })
+// .finally(() => v *= 2);
+
+// setTimeout(() => console.log(v), 3000);
+
+
+
+let v = 23;
+
+const k1 = setInterval(() => v += 1, 0);
+const k2 = setInterval(() => v -= 1, 200);
 
 const promise = new Promise(resolve => {
     resolve();
-    process.nextTick(() => v *= 3);
-    v += 2;
+    process.nextTick(() => v /= 2);
+    v += 1;
 })
 .then(() => {
-    clearInterval(k1); //k1 삭제
-    v += 4;
-    return new Promise(resolve => setTimeout(() => resolve(), 700));
+    clearInterval(k1);
+    v += 1;
+    return new Promise(resolve => setTimeout(() => resolve(), 500));
 })
 .then(() => {
     clearInterval(k2)
-    v += 6;
+    v += 1;
 })
-.finally(() => v *= 2);
+.finally(() => v /= 2);
 
-setTimeout(() => console.log(v), 3000);
+setTimeout(() => console.log(v), 2000);
